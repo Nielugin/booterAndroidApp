@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textPersonName"
-        android:text="@string/network_name"
+        android:hint="@string/network_name"
         android:ems="10"
         android:id="@+id/network_name" />
 
@@ -16,7 +16,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ip_range"
-        android:text="@string/ip_range" />
+        android:hint="@string/ip_range" />
 
     <Button
         android:layout_width="wrap_content"
@@ -25,4 +25,18 @@
         android:id="@+id/Create"
         android:layout_gravity="center_horizontal"
         android:onClick="saveNetwork" />
+
+    <android.support.v4.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TableLayout
+            android:id="@+id/network_table"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:isScrollContainer="true">
+
+        </TableLayout>
+
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>
