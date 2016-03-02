@@ -26,6 +26,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jeanjulien.boucheron.booter.Booter" />
         </activity>
+        <activity
+            android:name="com.jeanjulien.boucheron.booter.AddNetworkActivity"
+            android:label="@string/add_network"
+            android:parentActivityName="com.jeanjulien.boucheron.booter.Booter">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.jeanjulien.boucheron.booter.Booter" />
+        </activity>
     </application>
 
 

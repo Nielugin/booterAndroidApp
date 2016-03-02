@@ -1,5 +1,6 @@
 package com.jeanjulien.boucheron.booter;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.jeanjulien.boucheron.booter.controller.AppController;
 import com.jeanjulien.boucheron.booter.model.Computer;
@@ -42,6 +44,16 @@ public class Booter extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case 1:
+                toastAction("Add computer finished size : " + AppController.getInstance(getApplicationContext()).getComputers().size());
+                break;
+            case 2:
+                toastAction("Add network finished size : " + AppController.getInstance(getApplicationContext()).getNetworks().size());
+                break;
+            default:
+                break;
+        }
         displayComputerTable();
     }
 
@@ -170,16 +182,32 @@ public class Booter extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        CharSequence text;
+        switch (id) {
+            case R.id.add_network:
+                Intent intent = new Intent(this, AddNetworkActivity.class);
+                startActivityForResult(intent, 2);
+                text = "add net!";
+                toastAction(text);
+                break;
+            case R.id.change_network:
+                text = "change_network!";
+                toastAction(text);
+                break;
+            default:
+                text = "default!";
+                toastAction(text);
+                break;
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void toastAction(CharSequence text) {
+        Context context = getApplicationContext();
+        int duration = Toast.LENGTH_LONG;
+        Toast toast = Toast.makeText(context, text, duration);
+        toast.show();
     }
 }
