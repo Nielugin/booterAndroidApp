@@ -21,7 +21,7 @@
         <activity
             android:name="com.jeanjulien.boucheron.booter.AddComputerActivity"
             android:label="@string/add_computer"
-            android:parentActivityName="com.jeanjulien.boucheron.booter.Booter" >
+            android:parentActivityName="com.jeanjulien.boucheron.booter.Booter">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.jeanjulien.boucheron.booter.Booter" />

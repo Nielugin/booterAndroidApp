@@ -7,28 +7,25 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
-import android.view.MotionEvent;
-import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
 
-
 import com.jeanjulien.boucheron.booter.controller.AppController;
 import com.jeanjulien.boucheron.booter.model.Computer;
-import com.jeanjulien.boucheron.booter.model.Network;
 
 import java.util.List;
 
 public class Booter extends AppCompatActivity {
 
 
-    class AssyncBooter extends AsyncTask<Computer, Integer,Boolean> {
+    class AssyncBooter extends AsyncTask<Computer, Integer, Boolean> {
         @Override
         protected Boolean doInBackground(Computer... params) {
             params[0].boot();
@@ -36,7 +33,7 @@ public class Booter extends AppCompatActivity {
         }
     }
 
-    public void addComputer(View view){
+    public void addComputer(View view) {
         Intent intent = new Intent(this, AddComputerActivity.class);
         startActivityForResult(intent, 1);
     }
@@ -56,45 +53,81 @@ public class Booter extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-
         displayComputerTable();
 
     }
 
-    private void displayComputerTable(){
-
-        AppController  appController = AppController.getInstance(getBaseContext());
+    /**
+     * Displays the computer table.
+     */
+    private void displayComputerTable() {
+        // getting computer list
+        AppController appController = AppController.getInstance(getBaseContext());
         List<Computer> computerList = appController.getComputers();
+        // gets the layout
         TableLayout tableLayout = (TableLayout) findViewById(R.id.computer_table);
+        // reinit view
         tableLayout.removeAllViews();
-        for (final Computer computer : computerList ) {
-            TableRow tableRow =  new TableRow(this);
-            tableRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50));
-            TextView computerName =  new TextView(this);
-            computerName.setGravity(Gravity.CENTER_VERTICAL);
-            computerName.setText(computer.getName());
-            computerName.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.30f));
-            TextView computerMacAddress =  new TextView(this);
-            computerMacAddress.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.5f));
-            computerMacAddress.setGravity(Gravity.CENTER_VERTICAL);
-
-            computerMacAddress.setText(computer.getMacAddress());
-            ImageButton bootButton = initBootButton(computer);
-            ImageButton deleteButton = initDeleteButton(computer);
-
-
-            tableRow.addView(computerName);
-            tableRow.addView(computerMacAddress);
-            tableRow.addView(bootButton);
-            tableRow.addView(deleteButton);
+        // foreach computer
+        for (final Computer computer : computerList) {
+            // a new row is created
+            TableRow tableRow = createComputerTableRow(computer);
+            // the row is added to the layout.
             tableLayout.addView(tableRow);
         }
 
     }
 
     @NonNull
+    private TableRow createComputerTableRow(Computer computer) {
+        // creates the row
+        TableRow tableRow = new TableRow(this);
+        tableRow.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 50));
+
+        // init row components
+        TextView computerName = initComputerNameTextView(computer);
+        TextView computerMacAddress = getMacAddressTextView(computer);
+        ImageButton bootButton = initBootButton(computer);
+        ImageButton deleteButton = initDeleteButton(computer);
+
+        // adds components to the row
+        tableRow.addView(computerName);
+        tableRow.addView(computerMacAddress);
+        tableRow.addView(bootButton);
+        tableRow.addView(deleteButton);
+        return tableRow;
+    }
+
+    @NonNull
+    /**
+     * Init the mac address text field
+     */
+    private TextView getMacAddressTextView(Computer computer) {
+        TextView computerMacAddress = new TextView(this);
+        computerMacAddress.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.5f));
+        computerMacAddress.setGravity(Gravity.CENTER_VERTICAL);
+        computerMacAddress.setText(computer.getMacAddress());
+        return computerMacAddress;
+    }
+
+    @NonNull
+    /**
+     * Init the computer name text field
+     */
+    private TextView initComputerNameTextView(Computer computer) {
+        TextView computerName = new TextView(this);
+        computerName.setGravity(Gravity.CENTER_VERTICAL);
+        computerName.setText(computer.getName());
+        computerName.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.30f));
+        return computerName;
+    }
+
+    @NonNull
+    /**
+     * Init the boot button
+     */
     private ImageButton initBootButton(final Computer computer) {
-        ImageButton bootButton  = new ImageButton(this);
+        ImageButton bootButton = new ImageButton(this);
         bootButton.setImageResource(R.drawable.boot);
         bootButton.setLayoutParams(new TableRow.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT, 0.10f));
         bootButton.setMaxHeight(50);
@@ -109,6 +142,9 @@ public class Booter extends AppCompatActivity {
     }
 
     @NonNull
+    /**
+     * Init the delete button
+     */
     private ImageButton initDeleteButton(final Computer computer) {
         ImageButton deleteButton = new ImageButton(this);
         deleteButton.setImageResource(R.drawable.trash);

@@ -1,6 +1,5 @@
 package com.jeanjulien.boucheron.booter.model.database;
 
-import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
@@ -12,14 +11,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by JBOUCHER on 02/02/2016.
+ * Make network loading easier
  */
-public  class NetworkLoader {
+public class NetworkLoader {
 
+    /**
+     * Loads the networks from database.
+     *
+     * @param context The application context.
+     * @return The application network list.
+     */
+    public static List<Network> loadNetwork(Context context) {
 
-    public static List<Network> loadNetwork(Context context){
-
-        List<Network> networks = new ArrayList<Network>();
+        List<Network> networks = new ArrayList<>();
         DataBaseHelper dataBaseHelper = new DataBaseHelper(context);
         SQLiteDatabase db = dataBaseHelper.getWritableDatabase();
         dataBaseHelper.onCreate(db);
@@ -28,8 +32,8 @@ public  class NetworkLoader {
         while (dataList.moveToNext()) {
             long netId = dataList.getLong(dataList.getColumnIndexOrThrow(NetworkEntry.COLUMN_NAME_NET_ID));
             String netName = dataList.getString(dataList.getColumnIndexOrThrow(NetworkEntry.COLUMN_NAME_NAME));
-            String  netIpPlage = dataList.getString(dataList.getColumnIndexOrThrow(NetworkEntry.COLUMN_NAME_IP_PLAGE));
-            networks.add( new Network(netId, netName, netIpPlage));
+            String netIpRange = dataList.getString(dataList.getColumnIndexOrThrow(NetworkEntry.COLUMN_NAME_IP_Range));
+            networks.add(new Network(netId, netName, netIpRange));
         }
 
         return networks;
@@ -42,28 +46,26 @@ public  class NetworkLoader {
         public static final String TABLE_NAME = "Network";
         public static final String COLUMN_NAME_NET_ID = "network_id";
         public static final String COLUMN_NAME_NAME = "name";
-        public static final String COLUMN_NAME_IP_PLAGE = "ip_plage";
+        public static final String COLUMN_NAME_IP_Range = "ip_plage";
 
-        public static String getCreationString(){
+        public static String getCreationString() {
 
-            return "CREATE TABLE IF NOT EXISTS "+ TABLE_NAME+" ( "+
-                    COLUMN_NAME_NET_ID+" INTEGER PRIMARY KEY AUTOINCREMENT "+ DataBaseHelper.COL_SEPARATOR +
-                    COLUMN_NAME_NAME+ DataBaseHelper.TEXT_TYPE+DataBaseHelper.COL_SEPARATOR+
-                    COLUMN_NAME_IP_PLAGE+ DataBaseHelper.TEXT_TYPE+
+            return "CREATE TABLE IF NOT EXISTS " + TABLE_NAME + " ( " +
+                    COLUMN_NAME_NET_ID + " INTEGER PRIMARY KEY AUTOINCREMENT " + DataBaseHelper.COL_SEPARATOR +
+                    COLUMN_NAME_NAME + DataBaseHelper.TEXT_TYPE + DataBaseHelper.COL_SEPARATOR +
+                    COLUMN_NAME_IP_Range + DataBaseHelper.TEXT_TYPE +
                     ")";
         }
-        public static String getDeletionString(){
-            return "DROP TABLE "+ TABLE_NAME;
+
+        public static String getDeletionString() {
+            return "DROP TABLE " + TABLE_NAME;
         }
 
-        public static String[] getColumns(){
-            return new String[] {
+        public static String[] getColumns() {
+            return new String[]{
                     COLUMN_NAME_NET_ID,
-                    COLUMN_NAME_NET_ID ,
                     COLUMN_NAME_NAME,
-                    COLUMN_NAME_IP_PLAGE
-                    //,
-                    //COLUMN_NAME_FK_NETWORK
+                    COLUMN_NAME_IP_Range
             };
         }
     }

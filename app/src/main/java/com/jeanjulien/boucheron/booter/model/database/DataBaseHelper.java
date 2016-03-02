@@ -6,9 +6,8 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 
-
 /**
- * Created by JBOUCHER on 27/01/2016.
+ * Database helper triggers database operations
  */
 public class DataBaseHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
@@ -44,7 +43,7 @@ public class DataBaseHelper extends SQLiteOpenHelper {
 
     public Cursor getDataList(String tableName, String[] projection) {
         SQLiteDatabase db = this.getReadableDatabase();
-        Cursor cursor = db.query(
+        return db.query(
                 tableName,  // The table to query
                 projection,                               // The columns to return
                 null,                                // The columns for the WHERE clause
@@ -53,16 +52,15 @@ public class DataBaseHelper extends SQLiteOpenHelper {
                 null,                                     // don't filter by row groups
                 null                                 // The sort order
         );
-        return cursor;
     }
 
-    public Cursor getDataList(String tableName, String[] projection,String whereCriteria, String[] values) {
+    public Cursor getDataList(String tableName, String[] projection, String whereCriteria, String[] values) {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor;
         cursor = db.query(
                 tableName,  // The table to query
                 projection,                               // The columns to return
-                whereCriteria   ,                                // The columns for the WHERE clause
+                whereCriteria,                                // The columns for the WHERE clause
                 values,                            // The values for the WHERE clause
                 null,                                     // don't group the rows
                 null,                                     // don't filter by row groups
