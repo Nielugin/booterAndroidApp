@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">Booter</string>
+    <string name="add_computer">Add computer</string>
+    <string name="action_settings">Change Nework</string>
+    <string name="boot_button_name">Boot</string>
+    <string name="mac_address_text_view">Mac Address</string>
+    <string name="computer_name_text_view">Computer Name</string>
+    <string name="delete_button_name">Delete</string>
+    <string name="boot_port">Port</string>
+    <string name="save_button">Save</string>
+    <string name="network_name_text_view">Network name</string>
+
+    <string-array name="network_values">
+        <item>Toto</item>
+        <item>Titi</item>
+    </string-array>
+</resources>
