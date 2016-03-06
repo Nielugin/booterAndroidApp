@@ -65,8 +65,15 @@ public class Booter extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
 
-        displayComputerTable();
 
+
+    }
+
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        displayComputerTable();
     }
 
     /**
